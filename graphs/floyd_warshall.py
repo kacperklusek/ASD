@@ -1,3 +1,5 @@
+# odleŋłości wszystkie-wszystkie
+
 def floyd_warshall(G):
     n = len(G)
 
@@ -9,8 +11,9 @@ def floyd_warshall(G):
                 if not d[i][j]:
                     d[i][j] = d[i][k] and d[k][j]
 
-    for i in range(n):
-        print(d[i])
+    return d
+    # for i in range(n):
+    #     print(d[i])
 
 
 G = [[0, 0, 0, 0, 1, 1],
