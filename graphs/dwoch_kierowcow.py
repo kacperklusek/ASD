@@ -43,18 +43,18 @@ def two_riders_of_the_storms(G, s, t):
         processed[u] = 1
         n_of_processed += 1
 
-    end = t
-    path = [end]
+    aux = t
+    path = [aux]
     ride = True if d[t][1] < d[t][0] else False
 
-    while parent_n[end] != -1 and parent_j[end] != -1:
+    while parent_n[aux] != -1 and parent_j[aux] != -1:
         if not ride:  # tzn. że najkrótsza droga to taka, że krawędź (parent_j[end], end) alicja prowadziła
-            end = parent_j[end]
+            aux = parent_j[aux]
             ride = True
         else:  # tzn. że najkrótsza droga to taka, że krawędź (parent_n[end], end) alicja nie prowadziła
-            end = parent_n[end]
+            aux = parent_n[aux]
             ride = False
-        path.append(end)
+        path.append(aux)
 
     path.reverse()
 
