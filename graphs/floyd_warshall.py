@@ -3,13 +3,12 @@
 def floyd_warshall(G):
     n = len(G)
 
-    d = [[1 if G[__][_] else 0 for _ in range(n)] for __ in range(n)]
+    d = [[G[i][j] if G[i][j] > 0 else float('inf') for i in range(n)] for j in range(n)]
 
     for k in range(n):
         for i in range(n):
             for j in range(n):
-                if not d[i][j]:
-                    d[i][j] = d[i][k] and d[k][j]
+                d[i][j] = min(d[i][j], d[i][k] + d[k][j])
 
     return d
     # for i in range(n):

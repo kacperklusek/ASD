@@ -1,7 +1,7 @@
 from zad3testy import runtests
 from zad3EK    import edmonds_karp
 
-# zakładam że odległość między p i q (liczona jako suma wag krawędzi najkrótszej ścieżki) jest nie WIĘKSZA niż d,
+# zakładam że odległość między p i q (liczona jako suma wag krawędzi najkrótszej ścieżki) jest nie mniejsza niż d,
 # najpierw usuwam krawędzie, które są dłuższe od D
 # potem tworząc super źródło oraz super ujśćie znajduje największy przepływ czyli ilość krawędzi o które jestem proszony
 # w poleceniu
@@ -27,7 +27,7 @@ def BlueAndGreen(T, K, D):
     d = floyd_warshall(T)
     for i in range(n):
         for j in range(n):
-            if d[i][j] > D and T[i][j] > 0:
+            if d[i][j] < D and T[i][j] > 0:
                 d[i][j] = d[j][i] = 0
                 T[i][j] = 0
 
