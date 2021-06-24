@@ -36,12 +36,12 @@ def make_tree_1():
     B.right = C
     C.left = F
     C.right = G
-    A.leftval = -1
-    A.rightval = -5
-    B.leftval = -6
-    B.rightval = -2
-    C.leftval = -8
-    C.rightval = -10
+    A.leftval = 1
+    A.rightval = 5
+    B.leftval = 6
+    B.rightval = 2
+    C.leftval = 8
+    C.rightval = 10
     return A, 3, 20
 
 
