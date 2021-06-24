@@ -1,4 +1,4 @@
-# V²
+# O(V²)
 
 def dijkstra(G):
     def relax(u, v):
@@ -24,6 +24,7 @@ def dijkstra(G):
             if not processed[i] and (u == -1 or d[i] < d[u]):
                 u = i
 
+        # relaksacja
         for v in range(n):
             if not processed[v] and G[u][v] != -1 and v != parent[u]:
                 relax(u, v)
