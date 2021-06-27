@@ -1,14 +1,13 @@
 def DFS(G):  # reprezenacja macierzowa
     n = len(G)
-    visited = 2
-    V = [0 for i in range(n)]
+    visited = [0 for _ in range(n)]
 
     def DFS_visit(i):
-        nonlocal visited, G, V
-        V[i] = visited
+        nonlocal visited, G
+        visited[i] = 1
         for j in range(n):
-            if G[i][j] == 1 and V[j] != visited:
-                print(f"visiting {j} from {i}") # zakomentować
+            if G[i][j] == 1 and not visited[j]:
+                # print(f"visiting {j} from {i}") # zakomentować
                 DFS_visit(j)
 
     DFS_visit(0)
