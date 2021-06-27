@@ -10,13 +10,11 @@ def opt_sum(A):
             if j - i == 1:
                 F[i][j] = (A[i] + A[j], abs(A[i] + A[j]))
             else:
-                wart = None
+                wart = F[i][i][0] + F[i+1][j][0]
                 op_sum = None
                 for k in range(i, j):
-                    if wart is None or abs(F[i][k][0] + F[k+1][j][0]) < wart or max(F[i][k][1], F[k+1][j][1]) < op_sum:
-                        wart = F[i][k][0] + F[k+1][j][0]
+                    if op_sum is None or max(F[i][k][1], F[k+1][j][1]) < op_sum:
                         op_sum = max(F[i][k][1], F[k+1][j][1], abs(wart))
-
                 F[i][j] = (wart, op_sum)
 
     return max(abs(F[0][n-1][0]), F[0][n-1][1])

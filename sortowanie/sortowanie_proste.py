@@ -11,7 +11,7 @@ def bubble(t):
     #         t[d+1], t[d] = t[d], t[d+1]
     #         d -= 1
 def insertion(t):
-    for d in range(1, len(t)-1):
+    for d in range(len(t)-1):
         for i in range(d, -1, -1):
             if t[i] > t[i+1]:
                 t[i+1], t[i] = t[i], t[i+1]

@@ -27,9 +27,9 @@ def two_riders_of_the_storms(G, s, t):
             if not processed[i]:
                 if u == -1 or min(d[i]) < min(d[u]):
                     u = i
-                elif u == -1 or min(d[i]) == min(d[u]):
-                    if u == -1 or d[i][0] == min(d[u]):
-                        u = i if u == -1 or d[i][1] < max(d[u]) else u
+                elif min(d[i]) == min(d[u]):
+                    if d[i][0] == min(d[u]):
+                        u = i if d[i][1] < max(d[u]) else u
                     else:
                         u = i if d[i][0] < max(d[u]) else u
         # wybrałem wierzchołek o najmniejszych wartościach
