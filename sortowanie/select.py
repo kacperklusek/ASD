@@ -27,12 +27,15 @@ def select(t, k, p=0, r=None):   # tablica t, czukamy elementu (liczby) na k-tej
 seed(42)
 n = 10
 
-for i in range(n):
-    A = list(range(n))
-    shuffle(A)
-    print(A)
-    x = select(A, i)
-    if x != i:
-        print("Blad podczas wyszukiwania liczby", i)
-        # exit(0)
-print("OK")
+t = [4,3,5,7,8,3]
+x = select(t, 3)
+print(x)
+# for i in range(n):
+#     A = list(range(n))
+#     shuffle(A)
+#     print(A)
+#     x = select(A, i)
+#     if x != i:
+#         print("Blad podczas wyszukiwania liczby", i)
+#         # exit(0)
+# print("OK")
