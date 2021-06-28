@@ -1,55 +1,87 @@
 from zad2testy import runtests
 
+# złożoność O(nlogk)
+
 
 class Node:
-    def __init__(self, val):
-        self.val = val
+    def __init__(self):
+        self.val = None
         self.next = None
 
-    def __gt__(self, other):
-        return self.val > other.val
 
-def insert_k(prev, node, end):
-    min = node
-    aux = node
-    prev_min = prev
+def left(i):
+    return 2 * i + 1
 
-    # wybieram najmniejszy node (val) najdalej k nodeów od node
-    while aux is not end:
-        prev_min = aux
-        aux = aux.next
-        if aux is None:
-            return node, end
-        min = aux if aux.val < min.val else min
 
-    # podmieniam node z minimum
-    if node.next is min:
-        prev.next = min
-        node.next = min.next
-        min.next = node
-    elif node is not min:
-        prev.next, node.next, min.next, prev_min.next = min, min.next, node.next, node
+def right(i):
+    return 2 * i + 2
 
-    return (min, end) if end is not min else (min, node)
+
+def swap(A, i1, i2):
+    A[i1], A[i2] = A[i2], A[i1]
+
+
+def parent(i):
+    return i//2
+
+
+def heapify(A, n, i):
+    l = left(i)
+    r = right(i)
+
+    m = i
+    if l < n and A[l].val < A[m].val: m = l
+    if r < n and A[r].val < A[m].val: m = r
+
+    if m != i:
+        swap(A, i, m)
+        heapify(A, n, m)
+
+
+def insert(A, value):
+    A.append(value)
+    n = len(A)
+    i = n-1
+    while A[parent(i)].val > A[i].val:
+        swap(A, parent(i), i)
+        i = parent(i)
+
+def insert_no_append(A, value):
+    n = len(A)
+    A[n-1] = value
+    i = n-1
+    while A[parent(i)].val > A[i].val:
+        swap(A, parent(i), i)
+        i = parent(i)
 
 
 def SortH(p: Node, k):
-    end = p
-    for i in range(k):
-        if end is not None:
-            end = end.next
 
-    wart = Node()
-    wart.next = p
-    start, end = insert_k(wart, p, end)
-
-    while end is not None:
-        prev = p
+    Q = []
+    for i in range(k+1):
+        insert(Q, p)
         p = p.next
-        end = end.next
-        p, end = insert_k(prev, p, end)
 
-    return start
+    new = Node()
+    output = new
+
+    while p is not None:  # O(n)
+        swap(Q, 0, k)     # O(1)
+        heapify(Q, k, 0)    # O(logk)
+        new.next = Q[k]
+        new = new.next
+        insert_no_append(Q, p)  # O(logk)
+        p = p.next
+
+    for i in range(k, -1, -1):
+        swap(Q, 0, i)
+        heapify(Q, i, 0)
+        new.next = Q[i]
+        new = new.next
+
+    new.next = None
+
+    return output.next
 
 
 runtests(SortH)
