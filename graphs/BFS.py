@@ -26,8 +26,6 @@ def BFS(G, start=0):  # repr macierzowa
     while len(queue) > 0:
         BFS_visit(queue.pop())
 
-    BFS_visit(start)
-
     print(d)
 
 
