@@ -11,13 +11,12 @@ from zad3EK    import edmonds_karp
 def floyd_warshall(G):
     n = len(G)
 
-    d = [[1 if G[__][_] else 0 for _ in range(n)] for __ in range(n)]
+    d = [[G[i][j] if G[i][j] > 0 else float('inf') for i in range(n)] for j in range(n)]
 
     for k in range(n):
         for i in range(n):
             for j in range(n):
-                if not d[i][j]:
-                    d[i][j] = d[i][k] and d[k][j]
+                d[i][j] = min(d[i][j], d[i][k] + d[k][j])
 
     return d
 
@@ -28,13 +27,14 @@ def BlueAndGreen(T, K, D):
     for i in range(n):
         for j in range(n):
             if d[i][j] < D and T[i][j] > 0:
-                d[i][j] = d[j][i] = 0
-                T[i][j] = 0
+                T[i][j] = T[j][i] = 0
+            elif d[i][j] >= D and T[i][j] == 0:
+                T[i][j] = T[j][i] = 1
 
-    G = [[0 for i in range(n+2)]for j in range(n+2)]
+    G = [[0 for _ in range(n+2)]for __ in range(n+2)]
     for i in range(n):
         for j in range(n):
-            G[i][j] = T[i][j]
+            G[i][j] = n*T[i][j]
 
     source = n
     sink = n+1
