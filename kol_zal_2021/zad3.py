@@ -24,34 +24,33 @@ def iamlate(T, V, q, l):
         V[i] = min(V[i], q)
 
 
-    f = [[float('inf') for _ in range(q+1)] for __ in range(n)]
+    f = [[[] for _ in range(q+1)] for __ in range(n)]
+
 
     for i in range(V[0] + 1):
-        f[0][i] = 1
+        f[0][i] = [0]
 
-    def foo(i, j):
-        nonlocal f, T, V, q, l
-        if 0 > i or i >= n or j < 0 or j > q:
-            return float('inf')
-        elif f[i][j] < float('inf'):
-            return f[i][j]
-        else:
-            z = T[i]-T[i-1]
-            val = float('inf')
+    for i in range(1, n):
+        for j in range(q+1):
+            # z - odległość do poprzedniej stacji
+            z = T[i] - T[i-1]
 
-            # bez tankowania w obecnej stacji
-            val = foo(i-1, z + j)
+            # przypadek, w którym nie muszę tankować na obecnej stacji
+            if j+z <= q:
+                f[i][j] = f[i-1][j+z]
 
-            # z tankowaniem w obecnej stacji
-            for m in range(V[i]):
-                val = min(val, foo(i-1, j + z - m) + 1)
+            # przypadki, gdzie dotankowuje k paliwa na obecnej (i-tej) stacji
+            for k in range(1, V[i] + 1):
+                if j + z - k <= q:
+                    if f[i][j] == [] or len(f[i-1][j + z - k]) + 1 < len(f[i][j]):
+                        # sprawdzam jeszcze, czy mogłem dojechać wcześniej na i-1 stacje z j+z-k paliwa
+                        # oraz czy nie tankuje więcej niż chce mieć paliwa (ujemna wartość w baku)
+                        if f[i - 1][j + z - k] and j >= k:
+                            f[i][j] = f[i - 1][j + z - k] + [i]
 
-            f[i][j] = val
-            return f[i][j]
+    f[n - 1][0].sort()
 
-    x = foo(n-1, 0)
-
-    return []
+    return f[n-1][0]
 
 
 runtests( iamlate )

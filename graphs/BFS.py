@@ -1,9 +1,6 @@
 from collections import deque
 
 
-
-
-
 def BFS(G, start=0):  # repr macierzowa
 
     n = len(G)
