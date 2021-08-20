@@ -1,4 +1,4 @@
- from zad1testy import runtests
+from zad1testy import runtests
 
 
 def ConvertTree(p):
