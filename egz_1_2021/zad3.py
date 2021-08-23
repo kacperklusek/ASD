@@ -35,19 +35,19 @@ def kintersect(A, k):
             q.put((A[idx][1], idx))
         # jeśli spotkam koniec to wyrzucam go z PQ i zmniejszam liczbe aktywnych przedziałów
         elif end == 1:
-            active -= 1
             # trzeba sprawdzić czy jest, bo mógł się usunąć w linii 51
             if idx in intervals_used:
+                active -= 1
                 intervals_used.remove(idx)  # <- działa w O(k)
-            q.get()
+                q.get()
 
         # jeśli liczba aktywnych przedziałów jest większa od k, to należy usunąć najgorszy przedział
         # tzn. taki który kończy się najwcześniej, bo najlepsze przecięcie k przedz. z jego udziałem już sprawdziliśmy
         while active > k:
-            active -= 1
-            ending, idx = q.get()
-            # linia 39
+            # linia 38
             if idx in intervals_used:
+                active -= 1
+                ending, idx = q.get()
                 intervals_used.remove(idx)
 
         # jeśli liczba aktywnych przedziałów jest równa k, to muszę znaleźć maksimum z początków aktywnych przedziałów
