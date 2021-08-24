@@ -1,3 +1,5 @@
+# MST
+
 def kruskal(G):
     n = len(G)
     STree = []
@@ -29,7 +31,7 @@ def kruskal(G):
     parent = [_ for _ in range(n)]
     rank = [1 for _ in range(n)]
 
-    for w, u ,v in E:
+    for w, u, v in E:
         if find(u) != find(v):
             STree.append([u, v])
             union(u, v)

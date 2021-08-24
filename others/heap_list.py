@@ -13,7 +13,7 @@ def swap(A, i1, i2):
 
 
 def parent(i):
-    return i//2
+    return (i-1)//2
 
 
 def heapify(A, n, i):

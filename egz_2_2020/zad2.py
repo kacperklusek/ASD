@@ -1,13 +1,6 @@
 from zad2testy import runtests
 from math import sqrt, ceil
 
-
-
-
-
-#########################3
-# trzeba poprawić sprawdzanie czy da sie zrobić MST, izi pizi, powinno wtedy działać
-
 def kruskal(G):
     n = len(G)
     STree = []
@@ -73,11 +66,12 @@ def highway(A):
 
     G = [[sqrt((A[i][0] - A[j][0])**2 + (A[i][1] - A[j][1])**2) for i in range(n)] for j in range(n)]
 
-    stop = False
     diff = float('inf')
 
-    while not stop:
+    while 1:
         stree = kruskal(G)
+
+        # jeśli nie da sie juz zrobic MST
         if stree is None:
             break
 

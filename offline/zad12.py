@@ -1,58 +1,121 @@
+from math import log2, ceil
+
+
+def cat(x, y):
+    t = []
+    # zakładam że x i y są równej długości
+    x.sort()
+    y.sort()
+    while x and y:
+        if x[len(x)-1] < y[len(y)-1]:
+            t.append(y.pop(len(y)-1))
+        elif x[len(x)-1] > y[len(y)-1]:
+            t.append(x.pop(len(x)-1))
+        else:
+            x.pop(len(x)-1)
+            t.append(y.pop(len(y)-1))
+        if len(t) > 1 and t[len(t)-1] == t[len(t)-2]:
+            t.pop(len(t)-1)
+    if x:
+        t.extend(x[::-1])
+    elif y:
+        t.extend(y)
+
+    return t
+
 
 def parent(x):
-    return int((x-1)/2)
+    return (x-1)//2
+
 
 def left(x):
     return 2*x + 1
 
+
 def right(x):
     return 2*x + 2
 
-def intersect(interval1, interval2):
-    # returns True if interval 1 intersects with interval 2 else False
-    if interval2[0] < interval1[0] < interval2[1] or\
-        interval2[0] < interval1[1] < interval2[1] or\
-        interval2 == interval1:
-        return True
+
+def create_interval_tree(K):
+    L, R = [interval[0] for interval in K], [interval[1] for interval in K]
+
+    # intervals to przedziały bazowe
+    intervals = cat(L, R)
+    intervals.sort()
+    intervals = [(intervals[i], intervals[i+1]) for i in range(len(intervals)-1)]
+
+    # rozszerzam tablicę żeby była wielokrotnością dwójki
+    target_len = 2 ** ceil( log2(len(intervals)) )
+    while len(intervals) < target_len:
+        intervals.append((float('inf'), float('inf')))
+
+    # teraz dodaje na początek tablicy n-1 elementów, żebym mógł zrobić tablicową reprezentacje drzewa
+    intervals = [None for _ in range(len(intervals)-1)] + intervals
+
+    n = len(intervals)
+
+    for i in range(n-1, 2-1, -2):
+        l, r = intervals[i-1][0], intervals[i][1]
+        intervals[parent(i)] = (l, r)
+
+    # to dodałem, żeby przechowywać (przedział, maks. wysokość w obszarze węzła, czy jest liściem)
+    intervals = [[intervals[i],0, False] for i in range(n)]
+    intervals[0][2] = True
+
+    return intervals
+
+
+def intersects(x, y):
+    intersection = (max(x[0], y[0]), min(x[1], y[1]))
+    if intersection[0] < intersection[1]:
+        return intersection
     else:
         return False
 
-def rotate(tree):
-    tree
 
-def place_interval(tree, interval, i=0):
-    if tree[i] is None:
-        if i == right(parent(i)):
-            tree[i] = [interval[0], interval[1], tree[parent(i)][2]+1]
-            return 1
-        else:
-            tree[i] = [interval[0], interval[1], tree[parent(i)][2]]
-            return 0
-
-    elif intersect(interval, tree[i]):
-        tree[i] = [min(tree[i][0], interval[0]), max(tree[i][1], interval[1]), tree[i][2]]
-        add = place_interval(tree, interval, right(i))
-        tree[i][2] += add
-
+def put_block(L, R, h, T, i):
+    if T[i][0][0] == L and T[i][0][1] == R:
+        T[i][1] = h
+        T[i][2] = True
     else:
-        add = place_interval(tree, interval, left(i))
-        tree[i][2] += add
+        ll, lr, rl, rr = T[left(i)][0][0], T[left(i)][0][1], T[right(i)][0][0], T[right(i)][0][1]
+        if ll <= L < R <= lr:
+            put_block(L, R, h, T, left(i))
+        elif rl <= L < R <= rr:
+            put_block(L, R, h, T, right(i))
+        else:
+            put_block(L, lr, h, T, left(i))
+            put_block(rl, R, h, T, right(i))
 
-        if tree[right(i)] is None or tree[left(i)][2] > tree[right(i)][2]:
-            rotate(tree)
+        T[i][1] = max(T[i][1], h)
+        T[i][2] = False
 
+
+# zwraca poziom na jakim będziemy kłaść klocek
+def get_height(L, R, T, i):
+    if (T[i][0][0] == L and T[i][0][1] == R) or T[i][2]:
+        return T[i][1]
+    else:
+        ll, lr, rl, rr = T[left(i)][0][0], T[left(i)][0][1], T[right(i)][0][0], T[right(i)][0][1]
+        if ll <= L < R <= lr:
+            return get_height(L, R, T, left(i))
+        elif rl <= L < R <= rr:
+            return get_height(L, R, T, right(i))
+        else:
+            return max(get_height(L, lr, T, left(i)), get_height(rl, R, T, right(i)))
 
 
 def block_height(K):
-    n = len(K)
 
-    K = [i[2] * (i[0], i[1]) for i in K for _ in range(i[2])]
+    T = create_interval_tree(K)
 
-    tree = [None for _ in range(2*len(K))]
-    tree[0] = [K[0][0], K[0][1], 1]
+    for l, r, h in K:
+        new_h = h + get_height(l, r, T, 0)
+        put_block(l, r, new_h, T, 0)
 
-    for interval in K[1:]:
-        place_interval(tree, interval)
+    return T[0][1]
+
+
 
 
 
