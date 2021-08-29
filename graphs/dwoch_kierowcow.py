@@ -35,7 +35,7 @@ def two_riders_of_the_storms(G, s, t):
         # wybrałem wierzchołek o najmniejszych wartościach
 
         # relaksacja
-        for v in range(n):  # \/ powinno być ok ale jakby
+        for v in range(n):                                                 # \/ powinno być ok ale jakby
             # if G[u][v] != 0 and v != parent_j[u] and v != parent_n[u]:   # \/ nie działało to zmienić warunek na ten
             if not processed[v] and G[u][v] != 0 and v != parent_j[u] and v != parent_n[u]:
                 relax(u, v)

@@ -7,7 +7,7 @@ def jumper(G, s, w):
         # wybieram najlepszego poprzednika do dwumilowego kroku (u jest wierzcholkiem miedzy poprzednikiem a v)
         for i in range(n):
             if G[u][i] and i != v:
-                if d[i][0] + max(G[u][v], G[i][u]) < d[v][1]:
+                if d[i][0] + max(G[i][u], G[u][v]) < d[v][1]:
                     d[v][1] = d[i][0] + max(G[u][v], G[i][u])
                     parent[v][1] = i
         # relaksuje v zwykłym krokiem, mogę pójść albo z miejsca w którym skończyłem zwykły albo dwumilowy krok
@@ -17,7 +17,7 @@ def jumper(G, s, w):
 
     n = len(G)
 
-    d = [[float("inf"), float('inf')] for _ in range(n)] # d[0] - ostatni krok był zwykły, d[1] - ostatni krok dwumilowy
+    d = [[float("inf"), float('inf')] for _ in range(n)] # d[i][0] - ostatni krok był zwykły, d[i][1] - ostatni krok dwumilowy
     d[s][0] = d[s][1] = 0
     parent = [[-1, -1] for _ in range(n)]  # parent [0] to parent zwykłego kroku a parent[1] kroku dwumilowego
     processed = [0 for _ in range(n)]

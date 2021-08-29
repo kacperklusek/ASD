@@ -31,7 +31,7 @@ def tanagram(x, y, t):
         return False
 
     letters = [[] for _ in range(26)] # 26 bo to wielkość afabetu bez polskich znaków : abcdefghijklmnopqrstuwvqxyz
-    idx = [0 for i in range(26)]
+    idx = [0 for _ in range(26)]
 
     # uzupełniam w tablicy letters indeksy liter ze słowa y O(n)
     for i in range(n):

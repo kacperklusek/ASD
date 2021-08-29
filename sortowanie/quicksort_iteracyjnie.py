@@ -1,6 +1,6 @@
 from random import randint, seed
 
-
+# partition ustawia element r a swojej pozycji, po lewej są mniejsze, po prawej większe
 def partition(T, l, r):
     last = l
     for i in range(l, r):
@@ -40,7 +40,7 @@ def quicksort(T):
             stack.append((q + 1, r))
 
 seed(42)
-t = [randint(1, 99) for _ in range(20)]
+t = [randint(1, 99) for _ in range(10)]
 t1 = t[:]
 print(t)
 t1.sort()
