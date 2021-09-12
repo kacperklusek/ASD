@@ -7,15 +7,15 @@ def cat(x, y):
     x.sort()
     y.sort()
     while x and y:
-        if x[len(x)-1] < y[len(y)-1]:
-            t.append(y.pop(len(y)-1))
-        elif x[len(x)-1] > y[len(y)-1]:
-            t.append(x.pop(len(x)-1))
+        if x[len(x) - 1] < y[len(y) - 1]:
+            t.append(y.pop(len(y) - 1))
+        elif x[len(x) - 1] > y[len(y) - 1]:
+            t.append(x.pop(len(x) - 1))
         else:
-            x.pop(len(x)-1)
-            t.append(y.pop(len(y)-1))
-        if len(t) > 1 and t[len(t)-1] == t[len(t)-2]:
-            t.pop(len(t)-1)
+            x.pop(len(x) - 1)
+            t.append(y.pop(len(y) - 1))
+        if len(t) > 1 and t[len(t) - 1] == t[len(t) - 2]:
+            t.pop(len(t) - 1)
     if x:
         t.extend(x[::-1])
     elif y:
@@ -25,15 +25,15 @@ def cat(x, y):
 
 
 def parent(x):
-    return (x-1)//2
+    return (x - 1) // 2
 
 
 def left(x):
-    return 2*x + 1
+    return 2 * x + 1
 
 
 def right(x):
-    return 2*x + 2
+    return 2 * x + 2
 
 
 def create_interval_tree(K):
@@ -42,35 +42,28 @@ def create_interval_tree(K):
     # intervals to przedziały bazowe
     intervals = cat(L, R)
     intervals.sort()
-    intervals = [(intervals[i], intervals[i+1]) for i in range(len(intervals)-1)]
+    intervals = [(intervals[i], intervals[i + 1]) for i in range(len(intervals) - 1)]
 
     # rozszerzam tablicę żeby była wielokrotnością dwójki
-    target_len = 2 ** ceil( log2(len(intervals)) )
+    target_len = 2 ** ceil(log2(len(intervals)))
     while len(intervals) < target_len:
         intervals.append((float('inf'), float('inf')))
 
     # teraz dodaje na początek tablicy n-1 elementów, żebym mógł zrobić tablicową reprezentacje drzewa
-    intervals = [None for _ in range(len(intervals)-1)] + intervals
+    intervals = [None for _ in range(len(intervals) - 1)] + intervals
 
     n = len(intervals)
 
-    for i in range(n-1, 2-1, -2):
-        l, r = intervals[i-1][0], intervals[i][1]
+    # uzupełniam parentów
+    for i in range(n - 1, 2 - 1, -2):
+        l, r = intervals[i - 1][0], intervals[i][1]
         intervals[parent(i)] = (l, r)
 
     # to dodałem, żeby przechowywać (przedział, maks. wysokość w obszarze węzła, czy jest liściem)
-    intervals = [[intervals[i],0, False] for i in range(n)]
+    intervals = [[intervals[i], 0, False] for i in range(n)]
     intervals[0][2] = True
 
     return intervals
-
-
-def intersects(x, y):
-    intersection = (max(x[0], y[0]), min(x[1], y[1]))
-    if intersection[0] < intersection[1]:
-        return intersection
-    else:
-        return False
 
 
 def put_block(L, R, h, T, i):
@@ -106,7 +99,6 @@ def get_height(L, R, T, i):
 
 
 def block_height(K):
-
     T = create_interval_tree(K)
 
     for l, r, h in K:
@@ -114,9 +106,6 @@ def block_height(K):
         put_block(l, r, new_h, T, 0)
 
     return T[0][1]
-
-
-
 
 
 K1 = [(1, 3, 1), (2, 5, 2), (0, 3, 2), (8, 9, 3), (4, 6, 1)]

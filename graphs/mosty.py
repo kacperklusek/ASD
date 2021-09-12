@@ -1,3 +1,9 @@
+# algorytm:
+# 1) wykonujemy DFS zapisując czasy odwiedzenia
+# 2) obliczamy dla każdego wierzchołka funkcję low
+#    low[v] = min ( czas odwiedzenia v, low[sąsiedzi ale nie rodzic v], low[dziecko v] )
+# 3) mosty to krawędzie (v, parent[v]), gdzie d[v] = low[v]
+
 def mosty(G):
     n = len(G)
     visited = [False for _ in range(n)]
@@ -30,14 +36,13 @@ def mosty(G):
 
 
 
-g = [[0, 1, 0, 0, 0, 0, 1, 0],
-     [1, 0, 1, 0, 0, 0, 0, 0],
-     [0, 1, 0, 1, 0, 0, 1, 0],
-     [0, 0, 1, 0, 1, 1, 0, 0],
-     [0, 0, 0, 1, 0, 1, 0, 0],
-     [0, 0, 0, 1, 1, 0, 0, 0],
-     [1, 0, 1, 0, 0, 0, 0, 1],
-     [0, 0, 0, 0, 0, 0, 1, 0],
+g = [[0, 1, 0, 0, 0, 0, 1],
+     [1, 0, 1, 0, 0, 1, 1],
+     [0, 1, 0, 1, 1, 0, 0],
+     [0, 0, 1, 0, 1, 0, 0],
+     [0, 0, 1, 1, 0, 0, 0],
+     [0, 1, 0, 0, 0, 0, 1],
+     [1, 1, 0, 0, 0, 1, 0],
      ]
 
 mosty(g)

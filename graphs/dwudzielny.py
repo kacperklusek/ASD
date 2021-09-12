@@ -53,25 +53,25 @@ def is_dichotomic(graph):
 
     return True
 
-
-            # side = v.neighbours[0].side      # jakby był nie spójny to tu poprawić
-            # for nei in v.neighbours:
-            #     if nei.side is not None:    # neigh is assigned to side
-            #         if side is not None and nei.side != side:   # if any previous neighbour was assigned to either side
-            #             return False                            # and it was other side than one in current neigh
-            #         else:   # elif side is None
-            #             side = nei.side     # case in which nei is the first neighbour assigned to either side
-            #
-            # if side is None:    # in this case, neither neighbours nor v is assigned to any side
-            #     v.side = 0
-            #     for nei in v.neighbours:
-            #         nei.side = 1
-            # else:   # neighbours are not coliding and at least one of them is assigned to either side
-            #     v.side = 1 if side == 0 else 0
-            #     for nei in v.neighbours:
-            #         if nei.side is None:
-            #             nei.side = side
-
+    #
+    #         side = v.neighbours[0].side      # jakby był nie spójny to tu poprawić
+    #         for nei in v.neighbours:
+    #             if nei.side is not None:    # neigh is assigned to side
+    #                 if side is not None and nei.side != side:   # if any previous neighbour was assigned to either side
+    #                     return False                            # and it was other side than one in current neigh
+    #                 else:   # elif side is None
+    #                     side = nei.side     # case in which nei is the first neighbour assigned to either side
+    #
+    #         if side is None:    # in this case, neither neighbours nor v is assigned to any side
+    #             v.side = 0
+    #             for nei in v.neighbours:
+    #                 nei.side = 1
+    #         else:   # neighbours are not coliding and at least one of them is assigned to either side
+    #             v.side = 1 if side == 0 else 0
+    #             for nei in v.neighbours:
+    #                 if nei.side is None:
+    #                     nei.side = side
+    #
     # return True
 
 
