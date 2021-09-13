@@ -61,7 +61,7 @@ def rect(D):
             Snew = (nw[2] - nw[0]) * (nw[3] - nw[1])
         else:
             Snew = 0
-        
+
         if Snew > Smax:
             to_delete = i
             Smax = Snew

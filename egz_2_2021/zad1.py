@@ -2,42 +2,49 @@ from zad1testy import runtests
 
 # dla każdego przedziału który zaczyna się w x, idę sposobem podobnym do algorytmu DFS jak po grafie.
 # trzymam się zasady że mogę przeskoczyć z przedziału A na przedział B, gdy A[1] == B[0] czyli gdy maja 1 pkt wspólny
-# zapisuje po drodze przedziały z jakich korzystałem i jeśli dojde do takiego, którego prawy koniec jest równy y, to
-# znaczy że znalazłem jedno z rozwiązań, zapisuje je więc pomijając powtórki do zmiennej solution i kontynuuje
-# złożoność algorytmu to złożoność dfs czyli O(n²)
+# zapisuje w tablicy czy da się dojść z danego weirzchołka do y, i korzystam z tego w późniejszych etapach programu,
+# czyli jakbym chciał jeszcze raz wejść do danego wierzchołka
 
-# na moim komputerze testy zacinają się na teście 4, ale algorytm wydaje siębyć poprawny
+# O(n²)
+
 
 def intuse( I, x, y ):
     n = len(I)
     solution = []
 
-    I = [[I[i][0], I[i][1], i] for i in range(n)]
+    visited = [0] * n
+    can_reach = [False] * n
 
-    # sortuje po zerowych indeksach
-    I.sort(key=lambda x:x[0])
+    def DFS_visit(i):
+        nonlocal visited, I, can_reach
+        visited[i] = 1
+        if I[i][1] > y:
+            return False
+        elif I[i][1] == y:
+            can_reach[i] = True
+            return True
 
-    def dfs(i, temp_solution):
-        nonlocal solution, I, x, y, n
-        if I[i][1] == y:
-            for idx in temp_solution:
-                if idx not in solution:
-                    solution.append(idx)
-            return
-        elif I[i][1] < y:
-            for j in range(0 if i == n else i, n):
-                if I[j][0] > I[i][1]:
-                    break
-                # jeśli rozważam różne przedziały && da się przeskoczyć na drugi && drugi nie wykracza poza przedział x, y
-                if i != j and I[j][0] == I[i][1] and I[j][1] <= y:
-                    dfs(j, temp_solution + [I[j][2]])
+        can = False
+        for j in range(n):
+            if I[i][1] == I[j][0]:
+                if not visited[j] and not can_reach[j]:
+                    can = DFS_visit(j) or can
+                elif visited[j] and can_reach[j]:
+                    can = True
 
-    # tworzę sztuczny wierzchołek (przedział) który jest początkiem rozwiązań.
-    # nie wlicza się on do rozwiązania
-    I.append([float('inf'), x, n])
-    dfs(n, [])
+        can_reach[i] = can
+        return can
 
-    return solution
+    for i in range(n):
+        if I[i][0] == x:
+            DFS_visit(i)
+
+    output = []
+    for i in range(n):
+        if can_reach[i]:
+            output.append(i)
+
+    return output
 
     
 runtests( intuse )
