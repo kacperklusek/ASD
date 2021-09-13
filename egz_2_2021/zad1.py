@@ -12,6 +12,10 @@ def intuse( I, x, y ):
     n = len(I)
     solution = []
 
+    I = [[I[i][0], I[i][1], i] for i in range(n)]
+    I.sort(key=lambda x: x[0])
+    # sortuje po pierwszej współrzędnej
+
     visited = [0] * n
     can_reach = [False] * n
 

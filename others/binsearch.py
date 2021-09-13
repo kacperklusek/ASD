@@ -2,7 +2,7 @@
 def binsearch(tab, val):
     n = len(tab)
     l, r = 0, n-1
-    while l < r:
+    while l <= r:
         idx = (l + r) // 2
         if tab[idx] < val:
             l = idx+1
