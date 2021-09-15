@@ -25,7 +25,7 @@ def LIS_turbo_s(A):
     m = max(A)       # O(n)
     F = [0] * n      # O(n)
     N = [m] * (n+1)  # O(n)
-    N[0] = 0                # zakładając że liczby w A są > 0
+    N[0] = float('-inf')               # zakładając że liczby w A są > 0
 
     # O(nlogn)
     for i in range(n):   #O(n)
